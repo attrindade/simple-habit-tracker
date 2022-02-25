@@ -1,4 +1,4 @@
-# simple-habit-tracker
+# The Super Simple CLI Habit Tracker
 A super simple habit tracker, made for my learning purposes with python.
 
 This project is not finished yet.
