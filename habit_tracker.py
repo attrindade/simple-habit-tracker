@@ -138,22 +138,39 @@ def deleting_process(habits_list: list):
 
     return habits_list
 
-""""
+
 def show_stats(habits_list: list):
     #Shows in a tabular way name of habits, initial dates, 
     # how many 0's and 1's and how long is the actual streak
+    ## RETURN : None, it only prints the habits_list data
 
     print()
-    print(f"{'Name':<16} | {'Initial Date':<12} | {'# of 0':>6} | {'# of 1':>6} | {'Actual Streak':>6}")
-    print(f"{'-' * 66}")
+    print(f"{'Name':<16} | {'I. Date':^10} | {'Last Check':^10} | {'did':>5} | {'didnt':>5} | {'C. Streak':>10}")
+    print(f"{'-' * 71}")
     for line in habits_list:
         parts = line.split(';')
         name = parts[0]
-        ##FINISH THIS PART TOMRROW
-        for i in range(len(parts[2:])
         date = f"{parts[1][0:2]}/{parts[1][2:4]}/{parts[1][4:]}"
-        
-        print(f"{name:<16} | {date:>12} | {'# of 0':>6} | {'# of 1':>6} | {'Actual Streak':>6}") """
+        #Here we create a datetime object with the initial date and add the amount of checks - 1 to the
+        # timedelta. The -1 is because the initial date is also counted inside the checks
+        last_check = datetime.strptime(parts[1],"%d%m%Y") + timedelta(len(parts[2:-1])) 
+        last_check = last_check.strftime('%d/%m/%Y')
+        num_0 = 0
+        num_1 = 0
+        actual_streak = 0
+        for i in parts[2:]:
+            if i == '0':
+                num_0 += 1
+                actual_streak = 0
+            elif i == '1':
+                num_1 += 1
+                actual_streak += 1
+        print(f"{name:<16} | {date:^10} | {last_check:^10} | {num_0:>5} | {num_1:>5} | {actual_streak:>10}")
+    print()
+    print(f"I. Date -> Initial date; Did/Didnt -> amount of days you did or didnt do")
+    print(f"C. Streak -> Current Streak")
+    
+    return
 
 
 
@@ -172,7 +189,7 @@ def read_file():
 
 def show_habits(habits_list: list):
     # Prints the habits_list stats
-    ## RETURN: None, only prints the habits stats
+    ## RETURN: None, only prints the habits index and name, row by row
     print()
     print("These are your habits:")
     for habit_index, line in enumerate(habits_list):
@@ -189,6 +206,7 @@ def start():
     habits_list = read_file()
     num_habits = len(habits_list)
 
+    print()
     # print(habits_list)
 
     if num_habits == 0: 
@@ -216,14 +234,13 @@ def start():
             print("(2) delete a habit")
             print("(3) see the stats of a habit")
             print("(0) exit")
-            choice = input("Choice (1, 2, 3 or 0):")
+            choice = input("Choice (1, 2, 3 or 0): ")
             if choice == '1':
                 habits_list = checking_process(habits_list)
             elif choice == '2':
                 habits_list = deleting_process(habits_list)
             elif choice == '3':
-                # show_stats(habits_list)
-                pass
+                show_stats(habits_list)
             elif choice == '0':
                 print("Have a good day!")
                 break
@@ -240,7 +257,7 @@ def start():
 
 if __name__ == "__main__":
     ## TESTS
-    # habits_list = ["Drink water;17022022;1;0;1;1;1;1;1;1","Run;18022022;1;0;1;1;1;1;1","Read a book;17022022;1;0;1;1;1;1;1"]
+    habits_list = ["Drink water;17022022;1;0;1;0;0;0;0;0","Run;18022022;1;0;0;1;0;1;1","Read a book;17022022;1;1;1;1;1;1;1"]
     # print(habits_list)
     # show_stats(habits_list)
     # print(check_habit(habits_list))
