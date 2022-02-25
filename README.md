@@ -1,5 +1,7 @@
 # Super Simple CLI Habit Tracker
-A super simple habit tracker, made for my learning purposes with python.
+A super simple habit tracker, made for my learning purposes with python and git.
+
+![Example](https://github.com/attrindade/simple-habit-tracker/raw/main/example.PNG)
 
 This project is not finished yet.
 
