@@ -56,9 +56,13 @@ def checking_process(habits_list: list):
     show_habits(habits_list)
 
     while True:
-        choosen_index = int(input("Which habit would you like to check? "))
-        if choosen_index in range(len(habits_list)):
+        choosen_index = int(input("Which habit would you like to check? ")) - 1
+        #Here i've adjusted the index so we can show the habits starting from 1 instead of 0
+        if choosen_index in range(len(habits_list)): 
             new_habit_line = check_habit(habits_list[choosen_index])
+            break
+        elif choosen_index == -1:
+            print("You've exited the checking process")
             break
         else:
             print("Please choose a valid habit's number")
@@ -97,6 +101,7 @@ def check_habit(habit_line: str):
     dif_today_initial = (today - habit_date).days
 
     if dif_today_initial == checks_count:
+        print()
         print("Well done, you already checked even for today!")
     else:
         while checks_count < dif_today_initial:
@@ -128,16 +133,18 @@ def deleting_process(habits_list: list):
     show_habits(habits_list)
 
     while True:
-        choosen_index = int(input("Which habit would you like to delete? "))
+        choosen_index = int(input("Which habit would you like to delete? ")) - 1
         if choosen_index in range(len(habits_list)):
             habits_list.pop(choosen_index)
+            break
+        elif choosen_index == -1:
+            print("You've canceled the deleting process.")
             break
         else:
             print("Please choose a valid habit's number")
             continue
 
     return habits_list
-
 
 def show_stats(habits_list: list):
     #Shows in a tabular way name of habits, initial dates, 
@@ -172,8 +179,6 @@ def show_stats(habits_list: list):
     
     return
 
-
-
 def read_file():
     #Reads the my_habits.csv file and returns a list with each line
     ## RETURN : habits_list (list), list containing each line of the my_habits.csv
@@ -187,14 +192,25 @@ def read_file():
 
     return habits_list
 
+def write_file(habits_list: list):
+    with open('my_habits.csv','w') as f:
+        for count, line in enumerate(habits_list,1): 
+            if count == len(habits_list):   #The intention here is to cut the \n of the last line
+                f.write(f'{line}')
+                break
+            f.write(f'{line}\n')
+        f.close()
+    print("You've saved your file succesfully")
+
 def show_habits(habits_list: list):
     # Prints the habits_list stats
     ## RETURN: None, only prints the habits index and name, row by row
     print()
     print("These are your habits:")
-    for habit_index, line in enumerate(habits_list):
+    for habit_index, line in enumerate(habits_list, 1): 
         parts = line.split(';')
         print(f"({habit_index}) {parts[0]}")
+    print("(0) Cancel")
     
     return
 
@@ -229,11 +245,11 @@ def start():
             # print("~for now the habits list is~")
             # print(habits_list)
             print()
-            print("Would you like to:")
+            print("Would you like to: ")
             print("(1) do the checking for a habit")
             print("(2) delete a habit")
             print("(3) see the stats of a habit")
-            print("(0) exit")
+            print("(0) save and exit")
             choice = input("Choice (1, 2, 3 or 0): ")
             if choice == '1':
                 habits_list = checking_process(habits_list)
@@ -242,24 +258,21 @@ def start():
             elif choice == '3':
                 show_stats(habits_list)
             elif choice == '0':
+                print()
+                write_file(habits_list)
                 print("Have a good day!")
                 break
             else:
                 print("Please, answer with '1', '2', '3' or '0'")
                 continue
         return
-        #INSERT
-            #option to do the checking for one habit 
-            #option delete a habit
-            #option to see the statistics
-            #option to quit, this is the moment where the .csv is saved
-
 
 if __name__ == "__main__":
     ## TESTS
-    habits_list = ["Drink water;17022022;1;0;1;0;0;0;0;0","Run;18022022;1;0;0;1;0;1;1","Read a book;17022022;1;1;1;1;1;1;1"]
+    # habits_list = ["Drink water;17022022;1;0;1;0;0;0;0;0","Run;18022022;1;0;0;1;0;1;1","Read a book;17022022;1;1;1;1;1;1;1"]
     # print(habits_list)
     # show_stats(habits_list)
     # print(check_habit(habits_list))
+    # write_file(habits_list)
 
     start()
