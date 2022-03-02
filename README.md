@@ -6,7 +6,7 @@ A super simple habit tracker, made for my learning purposes with python and git.
 This project is not finished yet.
 
 To-do list:
-* finish show_stats function and implement it in the main program
+* finish show_stats function and implement it in the main program :white_check_mark:
 * implement the saving of the habits_list as .csv
 * separate each group of functions in different modules
 * implement data validation
