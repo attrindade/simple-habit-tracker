@@ -9,7 +9,7 @@ current design -> |habit_name;initial_date;0;1;1;0;1;0;1|
 (after initial_date there is the checks for every day past it,'0' for no, '1' for yes I did the habit)
 
 """
-
+from string import ascii_letters
 from datetime import date, datetime, timedelta
 
 def creates_new_habit():
@@ -21,8 +21,17 @@ def creates_new_habit():
     habit_line = [] #This list will be filled with 0's (didn't do the habit) and 1's (did it)
                     #It will also have a tuple (habit_name,habit_date) in the [0] position
 
-    habit_name = input("What's the name of your habit? ") #name
-
+    while True:
+        print("Max 15 and min 1 chars. Only letters, symbols, punctuation and whitespace.")
+        habit_name = input("What's the name of your habit? ") #name
+        if len(habit_name) > 15 or len(habit_name) < 1:
+            print("Max of 15 and min of 1 characters")
+            continue
+        if not habit_name.isprintable():
+            print("Only letters, symbols, punctuation and whitespace.")
+            continue
+        break
+                    
     while True:
         habit_date = datetime.strptime(input("When did you started it? Use the date format ddmmyyyy"),"%d%m%Y")
         habit_date = habit_date.date() #first date
@@ -274,5 +283,6 @@ if __name__ == "__main__":
     # show_stats(habits_list)
     # print(check_habit(habits_list))
     # write_file(habits_list)
+    creates_new_habit()
 
-    start()
+    # start()
