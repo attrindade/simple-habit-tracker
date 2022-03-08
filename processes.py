@@ -1,14 +1,10 @@
 from datetime import date, datetime, timedelta
 from prints import show_habits
 
-def creating_process():
-    #Creates a new habit
-    #Creates a string (a line) that is composed of what will be inserted in 'my_habits.csv'
-    ## RETURN : habit_line(str), line with data separated with semicolon
-    
-    today = date.today()
-    habit_line = [] #This list will be filled with 0's (didn't do the habit) and 1's (did it)
-                    #It will also have a tuple (habit_name,habit_date) in the [0] position
+def choose_habit_name():
+    #Auxiliary function that asks the user for a name as input and prevent him from
+    #using non printable characters and from using less than 1 char and more than 15
+    ## RETURN: habit_name (str)
 
     while True:
         print()
@@ -20,8 +16,14 @@ def creating_process():
         if not habit_name.isprintable():
             print("Only letters, symbols, punctuation and whitespace.")
             continue
-        break
-                    
+        return habit_name
+
+def choose_habit_date():
+    # Asks the user when did the habit started and if it was not started this year the program asks if the
+    # the user is sure about using that date because the checking process may take a long time
+    ## RETURN : 
+    today = date.today()
+
     while True:
         try:
             habit_date = datetime.strptime(input("When did you started it? Use the date format ddmmyyyy "),"%d%m%Y")
@@ -38,9 +40,12 @@ def creating_process():
                 pass
             else:
                 continue
-        habit_line.append(habit_name)
-        habit_line.append(habit_date.strftime('%d%m%Y'))
-        break
+        return habit_date
+
+def creation_checking(habit_line, habit_date):
+    #Do the first checking for this habit, from the initial date (habit_date) until today
+    ## RETURN : habit_line (list), now containing the checks for this new habit
+    today = date.today()
 
     while habit_date <= today:
         check_date = input(f"Did you do your habit during {habit_date.strftime('%d.%m.%Y')}? (Y/N) ")
@@ -54,13 +59,30 @@ def creating_process():
             print("Please, answer the question with 'Y' or 'N'")
             continue
     
-    return ';'.join(habit_line)
+    return habit_line
+
+def creating_process():
+    #Creates a new habit
+    #Creates a string (a line) that is composed of what will be inserted in 'my_habits.csv'
+    ## RETURN : habit_line(str), line with data separated with semicolon
+    
+    habit_line = [] #This list will contain habit_name,habit_date,(and a sequence of checks, 0's and 1's)
+
+    habit_name = choose_habit_name()
+    habit_date = choose_habit_date()
+
+    habit_line.append(habit_name)
+    habit_line.append(habit_date.strftime('%d%m%Y'))
+
+    habit_line = creation_checking(habit_line, habit_date)
+    
+    return ','.join(habit_line)
 
 def checking_process(habits_list: list):
     #This function makes possible for the user to choose which habit he wants to do a checking
     #The index of the habit line in the list is stored to replace that line
     #After chosing, the function 'check_habit' is called 
-    ## RETURN : new_habit_list (list), with the new habits list containing the cheks
+    ## RETURN : new_habit_list (list), with the new habits list containing new checks
 
     show_habits(habits_list)
 
@@ -94,7 +116,7 @@ def check_habit(habit_line: str):
     ## RETURN : habit_line (str), (1) a new one if there are new checks
     ##                            (2) or the same one if there were no new checks
 
-    habit_line = habit_line.split(';')
+    habit_line = habit_line.split(',')
 
     h_d_year = int(habit_line[1][4:]) #Extraction of date specifics from the habit line
     h_d_month = int(habit_line[1][2:4])
@@ -132,7 +154,7 @@ def check_habit(habit_line: str):
 
             checks_count += 1
 
-    habit_line = ';'.join(habit_line)
+    habit_line = ','.join(habit_line)
     return habit_line
 
 def deleting_process(habits_list: list):

@@ -9,7 +9,7 @@ def show_stats(habits_list: list):
     print(f"{'Name':<16} | {'I. Date':^10} | {'Last Check':^10} | {'did':>5} | {'didnt':>5} | {'C. Streak':>10}")
     print(f"{'-' * 71}")
     for line in habits_list:
-        parts = line.split(';')
+        parts = line.split(',')
         name = parts[0]
         date = f"{parts[1][0:2]}/{parts[1][2:4]}/{parts[1][4:]}"
         #Here we create a datetime object with the initial date and add the amount of checks - 1 to the
@@ -39,7 +39,7 @@ def show_habits(habits_list: list):
     print()
     print("These are your habits:")
     for habit_index, line in enumerate(habits_list, 1): 
-        parts = line.split(';')
+        parts = line.split(',')
         print(f"({habit_index}) {parts[0]}")
     print("(0) Cancel")
     

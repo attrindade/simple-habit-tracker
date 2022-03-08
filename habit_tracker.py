@@ -2,9 +2,9 @@
 A simple habit tracker
 by: André Trevisol Trindade
 
-to-do list: develop the better habit_line design for the csv 
+to-do list: develop a better habit_line design for the csv 
 
-current design -> |habit_name;initial_date;0;1;1;0;1;0;1| 
+current design -> |habit_name,initial_date,0,1,1,0,1,0,1| 
 
 (after initial_date there is the checks for every day past it,'0' for no, '1' for yes I did the habit)
 
@@ -43,8 +43,6 @@ def start():
         #In the case the person have at least 1 habit registered
         print(f"You have {num_habits} habit(s) registered.")
         while True:
-            # print("~for now the habits list is~")
-            # print(habits_list)
             print()
             print("Would you like to: ")
             print("(1) do the checking for a habit")
@@ -73,7 +71,7 @@ def start():
 
 if __name__ == "__main__":
     ## TESTS
-    # habits_list = ["Drink water;17022022;1;0;1;0;0;0;0;0","Run;18022022;1;0;0;1;0;1;1","Read a book;17022022;1;1;1;1;1;1;1"]
+    # habits_list = ["Drink water,17022022,1,0,1,0,0,0,0,0","Run,18022022,1,0,0,1,0,1,1","Read a book,17022022,1,1,1,1,1,1,1"]
     # print(habits_list)
     # show_stats(habits_list)
     # print(check_habit(habits_list))
