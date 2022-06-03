@@ -1,3 +1,5 @@
+![Simple Habit Tracker](banner.png)
+
 # Super Simple CLI Habit Tracker
 A super simple habit tracker, made for my learning purposes with python and git.
 
